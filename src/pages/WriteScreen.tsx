@@ -4,10 +4,9 @@ import {
   BackHandler,
   Pressable,
   SafeAreaView,
+  StyleSheet,
   Text,
-  TextInput,
   useColorScheme,
-  View,
 } from 'react-native';
 import {Colors} from 'react-native/Libraries/NewAppScreen';
 //
@@ -15,6 +14,8 @@ import * as AppNavigation from './AppNavitation';
 import {createMemo} from '../db/memo';
 import {Results} from 'realm';
 import realm, {TypeMemo} from '../db';
+import MemoTextArea from '../components/MemoTextArea';
+import {Flex} from '../components/Styles';
 
 const WriteScreen = (props: AppNavigation.Props) => {
   const isDarkMode = useColorScheme() === 'dark';
@@ -24,6 +25,7 @@ const WriteScreen = (props: AppNavigation.Props) => {
   };
 
   const [textVal, setTextVal] = useState<string>('');
+  const [idx, setIdx] = useState<number | null>(null);
 
   useEffect(() => {
     const backAction = () => {
@@ -47,57 +49,22 @@ const WriteScreen = (props: AppNavigation.Props) => {
     return () => backHandler.remove();
   }, []);
 
-  const [idx, setIdx] = useState<number | null>(null);
-
   useEffect(() => {
-    const getUser = async () => {
-      try {
-        let localMemo: Results<TypeMemo> = await realm.objects('Memo');
-        console.log(localMemo);
-        setIdx(localMemo.length + 1);
-      } catch (e) {
-        console.log('유저데이터가 없어요');
-      }
-    };
-    getUser();
+    const memos: Results<TypeMemo> = realm.objects('Memo');
+    setIdx(memos.length + 1);
   }, []);
 
+  const saveBtnDisplay: {display: 'none' | 'flex'} = {
+    display: textVal === '' ? 'none' : 'flex',
+  };
+
   return (
-    <View style={[{flex: 1}, backgroundStyle]}>
+    <Flex style={backgroundStyle}>
       <SafeAreaView />
-      <View style={{flex: 1, padding: 20}}>
-        <TextInput
-          style={{
-            borderWidth: 1,
-            borderRadius: 5,
-            padding: 14,
-            borderColor: 'black',
-            flex: 1,
-            textAlignVertical: 'top',
-          }}
-          value={textVal}
-          onChangeText={(txt: string) => {
-            setTextVal(txt);
-          }}
-          multiline={true}
-        />
+      <Flex style={styles.container}>
+        <MemoTextArea value={textVal} setValue={setTextVal} />
         <Pressable
-          style={{
-            alignSelf: 'center',
-            backgroundColor: 'white',
-            width: 80,
-            borderRadius: 25,
-            elevation: 5,
-            alignItems: 'center',
-            justifyContent: 'center',
-            padding: 12,
-            marginTop: 16,
-            display: textVal === '' ? 'none' : 'flex',
-          }}
-          // onPress={() => {
-          //   console.log(textVal);
-          //   console.log('alert and (save or cancel)');
-          // }}
+          style={[styles.saveContainer, saveBtnDisplay]}
           onPress={() => {
             if (idx) {
               console.log(idx);
@@ -109,13 +76,34 @@ const WriteScreen = (props: AppNavigation.Props) => {
 
             props.navigation.goBack();
           }}>
-          <Text style={{fontWeight: 'bold', color: 'black'}}>SAVE</Text>
+          <Text style={styles.saveFont}>SAVE</Text>
         </Pressable>
-      </View>
+      </Flex>
 
       <SafeAreaView />
-    </View>
+    </Flex>
   );
 };
+
+const styles = StyleSheet.create({
+  container: {
+    padding: 20,
+  },
+  saveContainer: {
+    alignSelf: 'center',
+    backgroundColor: 'white',
+    width: 80,
+    borderRadius: 25,
+    elevation: 5,
+    alignItems: 'center',
+    justifyContent: 'center',
+    padding: 12,
+    marginTop: 16,
+  },
+  saveFont: {
+    fontWeight: 'bold',
+    color: 'black',
+  },
+});
 
 export default WriteScreen;

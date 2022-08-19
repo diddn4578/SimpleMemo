@@ -6,6 +6,16 @@ Android
 
 ---
 
+0.0.3
+
+style정리
+
+컴포넌트화
+
+메모 상세, 수정 추가
+
+---
+
 0.0.2
 
 react navigation 추가

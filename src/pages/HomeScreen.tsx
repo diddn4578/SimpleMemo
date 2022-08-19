@@ -13,7 +13,9 @@ import {
 import {Colors} from 'react-native/Libraries/NewAppScreen';
 import {Results} from 'realm';
 import PlusShape from '../components/PlusShape';
-import realm, {TypeMemo} from '../db';
+import {Flex} from '../components/Styles';
+import {TypeMemo} from '../db';
+import {findAllMemo} from '../db/memo';
 import * as AppNavigation from './AppNavitation';
 
 const HomeScreen = (props: AppNavigation.Props) => {
@@ -29,7 +31,7 @@ const HomeScreen = (props: AppNavigation.Props) => {
 
   useEffect(() => {
     if (isFocused) {
-      const memos: Results<any> = realm.objects('Memo').sorted('id', true);
+      const memos: Results<any> = findAllMemo();
       const memoList: TypeMemo[] = [];
       memos.map((item: TypeMemo) => memoList.push(item));
       setMemo(memoList);
@@ -41,21 +43,16 @@ const HomeScreen = (props: AppNavigation.Props) => {
       <Pressable
         onPress={() => {
           console.log(item.id);
+          props.navigation.navigate('DetailScreen', {id: item.id});
         }}
-        style={{
-          borderColor: 'black',
-          borderWidth: 1,
-          borderRadius: 5,
-          marginBottom: 10,
-          padding: 14,
-        }}>
+        style={styles.flatlistItem}>
         <Text numberOfLines={3}>{item.content}</Text>
       </Pressable>
     );
   };
 
   return (
-    <View style={[{flex: 1}, backgroundStyle]}>
+    <Flex style={backgroundStyle}>
       <SafeAreaView />
       <StatusBar barStyle={isDarkMode ? 'light-content' : 'dark-content'} />
       {/* NOTE Header */}
@@ -65,9 +62,9 @@ const HomeScreen = (props: AppNavigation.Props) => {
         data={memo}
         renderItem={_renderItem}
         keyExtractor={item => item.id.toString()}
-        style={{paddingLeft: 20, paddingRight: 20}}
+        style={styles.flatlistPadding}
         showsVerticalScrollIndicator={false}
-        ListFooterComponent={<View style={{height: 80}} />}
+        ListFooterComponent={<View style={styles.flatlistFooterHeight} />}
       />
       {/*  */}
       <Pressable
@@ -80,11 +77,25 @@ const HomeScreen = (props: AppNavigation.Props) => {
       </Pressable>
       {/*  */}
       <SafeAreaView />
-    </View>
+    </Flex>
   );
 };
 
 const styles = StyleSheet.create({
+  flatlistPadding: {
+    paddingLeft: 20,
+    paddingRight: 20,
+  },
+  flatlistItem: {
+    borderColor: 'black',
+    borderWidth: 1,
+    borderRadius: 5,
+    marginBottom: 10,
+    padding: 14,
+  },
+  flatlistFooterHeight: {
+    height: 80,
+  },
   writeBtn: {
     position: 'absolute',
     bottom: 20,
