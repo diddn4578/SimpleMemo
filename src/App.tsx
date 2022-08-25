@@ -1,6 +1,6 @@
 import {NavigationContainer} from '@react-navigation/native';
 import React, {useEffect} from 'react';
-import AppNavigation from './src/pages/AppNavitation';
+import AppNavigation from 'AppNavitation';
 
 const App = () => {
   useEffect(() => {

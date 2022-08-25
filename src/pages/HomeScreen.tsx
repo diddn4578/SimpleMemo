@@ -12,11 +12,12 @@ import {
 } from 'react-native';
 import {Colors} from 'react-native/Libraries/NewAppScreen';
 import {Results} from 'realm';
-import PlusShape from '../components/PlusShape';
-import {Flex} from '../components/Styles';
-import {TypeMemo} from '../db';
-import {findAllMemo} from '../db/memo';
-import * as AppNavigation from './AppNavitation';
+import * as AppNavigation from 'AppNavitation';
+import {TypeMemo} from 'db';
+import {findAllMemo} from 'db/memo';
+import {More, Plus} from 'components/Icon';
+import {Flex} from 'components/Styles';
+import {ModalFrame, ModalTest} from 'components/Modal';
 
 const HomeScreen = (props: AppNavigation.Props) => {
   const isDarkMode = useColorScheme() === 'dark';
@@ -28,6 +29,7 @@ const HomeScreen = (props: AppNavigation.Props) => {
   const isFocused = useIsFocused();
 
   const [memo, setMemo] = useState<TypeMemo[]>([]);
+  const [moreModalState, setMoreModalState] = useState<boolean>(false);
 
   useEffect(() => {
     if (isFocused) {
@@ -56,7 +58,36 @@ const HomeScreen = (props: AppNavigation.Props) => {
       <SafeAreaView />
       <StatusBar barStyle={isDarkMode ? 'light-content' : 'dark-content'} />
       {/* NOTE Header */}
-      <View style={{height: 50}}></View>
+      <View
+        style={{
+          height: 50,
+          justifyContent: 'space-between',
+          flexDirection: 'row',
+          paddingLeft: 14,
+          paddingRight: 14,
+          alignItems: 'center',
+          zIndex: 30,
+        }}>
+        <View style={{width: 24, height: 50}}></View>
+        <View style={{flex: 1, height: 50}}></View>
+        <View
+          style={{
+            width: 24,
+            height: 50,
+            justifyContent: 'center',
+            alignItems: 'center',
+          }}>
+          <Pressable
+            style={{}}
+            onPress={() => {
+              console.log('더보기');
+              setMoreModalState(!moreModalState);
+            }}>
+            <More />
+          </Pressable>
+          <ModalFrame visible={moreModalState} setVisible={setMoreModalState} />
+        </View>
+      </View>
       {/* NOTE Header */}
       <FlatList
         data={memo}
@@ -73,7 +104,7 @@ const HomeScreen = (props: AppNavigation.Props) => {
           console.log('add');
           props.navigation.navigate('WriteScreen');
         }}>
-        <PlusShape />
+        <Plus />
       </Pressable>
       {/*  */}
       <SafeAreaView />

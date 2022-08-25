@@ -9,13 +9,13 @@ import {
   useColorScheme,
 } from 'react-native';
 import {Colors} from 'react-native/Libraries/NewAppScreen';
-//
-import * as AppNavigation from './AppNavitation';
-import {createMemo} from '../db/memo';
 import {Results} from 'realm';
-import realm, {TypeMemo} from '../db';
-import MemoTextArea from '../components/MemoTextArea';
-import {Flex} from '../components/Styles';
+//
+import * as AppNavigation from 'AppNavitation';
+import {createMemo} from 'db/memo';
+import realm, {TypeMemo} from 'db';
+import MemoTextArea from 'components/MemoTextArea';
+import {Flex} from 'components/Styles';
 
 const WriteScreen = (props: AppNavigation.Props) => {
   const isDarkMode = useColorScheme() === 'dark';

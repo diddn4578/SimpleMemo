@@ -9,11 +9,11 @@ import {
 } from 'react-native';
 import {Colors} from 'react-native/Libraries/NewAppScreen';
 import {Results} from 'realm';
-import MemoTextArea from '../components/MemoTextArea';
-import {Flex} from '../components/Styles';
-import {TypeMemo} from '../db';
-import {findOneMemo, updateMemo} from '../db/memo';
-import * as AppNavigation from './AppNavitation';
+import MemoTextArea from 'components/MemoTextArea';
+import {Flex} from 'components/Styles';
+import {TypeMemo} from 'db';
+import {findOneMemo, updateMemo} from 'db/memo';
+import * as AppNavigation from 'AppNavitation';
 
 const DetailScreen = (props: AppNavigation.Props) => {
   const isDarkMode = useColorScheme() === 'dark';

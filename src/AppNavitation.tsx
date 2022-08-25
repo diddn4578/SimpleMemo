@@ -1,11 +1,11 @@
 import React from 'react';
-import HomeScreen from './HomeScreen';
 import {
   createNativeStackNavigator,
   NativeStackScreenProps,
 } from '@react-navigation/native-stack';
-import WriteScreen from './WriteScreen';
-import DetailScreen from './DetailScreen';
+import HomeScreen from 'pages/HomeScreen';
+import WriteScreen from 'pages/WriteScreen';
+import DetailScreen from 'pages/DetailScreen';
 
 const Stack = createNativeStackNavigator();
 
