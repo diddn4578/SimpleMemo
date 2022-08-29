@@ -1,15 +1,19 @@
 import React from 'react';
 import {StyleSheet, View} from 'react-native';
 
+const IconContainerSize = 48;
+
 const MoreSize = 18;
 const MorePointSize = 3;
 
 export const More = () => {
   return (
-    <View style={styles.moreContainer}>
-      <View style={styles.morePoint} />
-      <View style={styles.morePoint} />
-      <View style={styles.morePoint} />
+    <View style={styles.iconContainer}>
+      <View style={styles.moreContainer}>
+        <View style={styles.morePoint} />
+        <View style={styles.morePoint} />
+        <View style={styles.morePoint} />
+      </View>
     </View>
   );
 };
@@ -32,6 +36,12 @@ export const Plus = () => {
 };
 
 const styles = StyleSheet.create({
+  iconContainer: {
+    width: IconContainerSize,
+    height: IconContainerSize,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
   moreContainer: {
     justifyContent: 'space-around',
     width: MoreSize,
